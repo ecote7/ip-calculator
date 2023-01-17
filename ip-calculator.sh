@@ -20,15 +20,20 @@ declare -i hosts
 total=0
 total2=0
 hosts=0
-
+echo "Calculating..."
 # Loop for txt files in current directory
 for txt in `ls *.txt`; do
   # Loop for IPs in each txt files
   hosts=0
   total=0
   for ip in `cat $txt`; do 
-    hosts=$(ipcalc $ip|grep -i Hosts|cut -d " " -f 2) && total=total+$hosts
-    done
+    #ipcalc $ip|grep -i Hosts|cut -d " " -f 2
+    if [[ "$ip" == *"/"* ]]; then
+        hosts=$(ipcalc -nb $ip|grep -i Hosts|cut -d " " -f 2) && total=total+$hosts
+    else
+        hosts=$(ipcalc -nb $ip 32|grep -i Hosts|cut -d " " -f 2) && total=total+$hosts
+    fi
+  done
   echo "Total IPs in $txt: $total"
   total2=$total2+$total
 done
