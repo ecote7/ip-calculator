@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 # Author : ECote
 # Calculate IPs in txt files in the directory where this script resides.
